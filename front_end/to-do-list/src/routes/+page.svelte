@@ -1,36 +1,15 @@
+<script>
+    import Button from '$lib/Button.svelte';
+</script>
+
+
 <main class="min-h-screen bg-gray-900 text-gray-100 p-6 font-mono ">
  
-<div class ="flex justify-center" >
-<div>
+<div class ="bg-black flex flex-col items-center" >
          <h1 class="text-3xl font-bold mb-4">To Do List</h1>
+            <Button text="Add Task"/>
 
-</div>
-     
-    <table class="table-fixed">
-  <thead>
-    <tr>
-      <th>Song</th>
-      <th>Artist</th>
-      <th>Year</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-      <td>Malcolm Lockyer</td>
-      <td>1961</td>
-    </tr>
-    <tr>
-      <td>Witchy Woman</td>
-      <td>The Eagles</td>
-      <td>1972</td>
-    </tr>
-    <tr>
-      <td>Shining Star</td>
-      <td>Earth, Wind, and Fire</td>
-      <td>1975</td>
-    </tr>
-  </tbody>
-</table>
+   
+
 </div>
 </main>
