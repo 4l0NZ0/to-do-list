@@ -1,0 +1,13 @@
+# Frontend (Svelte)
+frontend/to-do-list/node_modules/
+frontend/to-do-list/.svelte-kit/
+frontend/to-do-list/.env
+frontend/to-do-list/build/
+
+# Backend (PHP)
+backend/vendor/
+backend/.env
+
+# General
+.DS_Store
+*.log
