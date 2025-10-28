@@ -2,6 +2,7 @@
     import Button from '$lib/Button.svelte';
     import TodoInputField from '$lib/TodoInputField.svelte';
     import ErrorMessage from '$lib/ErrorMessage.svelte';
+    import TaskCard from '$lib/TaskCard.svelte';
     /*
     newTask holds value entered in the TodoInputField component. 
     
@@ -31,18 +32,23 @@
 </script>
 
 
-<main class="min-h-screen bg-gray-900 text-gray-100 p-6 font-mono ">
+<main class="min-h-screen bg-white  p-6 font-mono ">
  
-<div class =" flex flex-col items-center" >
-         <h1 class="text-3xl font-bold mb-4">To Do List</h1>
-<div>
-    {#if showErrorMessage}
-    <ErrorMessage bind:showErrorMessage = {showErrorMessage}/>
-    {/if}
+    <div class =" flex flex-col items-center" >
+        <div class= " rounded shadow-lg p-6 max-w-fit self-center">
 
-  <TodoInputField  bind:task={newTask} onAdd = {addTask} />
+            <h1 class="text-3xl font-bold mb-4 ">To Do List</h1>
+        <div>
+            {#if showErrorMessage}
+            <ErrorMessage bind:showErrorMessage = {showErrorMessage}/>
+            {/if}
+            <TodoInputField  bind:task={newTask} onAdd = {addTask} />
+        <div class="self-center w-auto">
+            <TaskCard/>
+        </div>
 
-</div>
+        </div>
+        </div>
 
-</div>
+    </div>
 </main>
