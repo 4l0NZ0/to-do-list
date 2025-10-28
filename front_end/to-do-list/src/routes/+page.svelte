@@ -6,7 +6,7 @@
     newTask holds value entered in the TodoInputField component. 
     
     */
-   let errorMessage = false;
+   let showErrorMessage = false;
 
    // feature: listen to new task. If string not empty i.e user is typing then error message disapears. 
    let newTask = ""; 
@@ -19,12 +19,15 @@
         console.log(task)
         else{
             console.log("Show empty field need to write a task. ")
-            errorMessage = true; 
+            showErrorMessage = true; 
         }
         
     }
 
-  
+// If newTask is changed, meaning it is not empty, close the error message. User can either use the close button or when they start to type into the input field. Better UX. 
+  $: if (newTask.trim() != ""){
+    showErrorMessage = false;
+  }
 </script>
 
 
@@ -33,15 +36,11 @@
 <div class =" flex flex-col items-center" >
          <h1 class="text-3xl font-bold mb-4">To Do List</h1>
 <div>
-    {#if errorMessage}
-      <ErrorMessage/>
-
+    {#if showErrorMessage}
+    <ErrorMessage bind:showErrorMessage = {showErrorMessage}/>
     {/if}
 
   <TodoInputField  bind:task={newTask} onAdd = {addTask} />
-
-
-
 
 </div>
 
