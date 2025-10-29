@@ -26,7 +26,7 @@ class TaskController extends AbstractController{
     public function __construct(AddTaskHandler $addTaskHandler){
           $this->$addTaskHandler = $addTaskHandler;
      }
-
+//Save Task 
     //Route: POST api/task
     // Need to handle the POST request. Extract data needed and send to DTO
     #[Route('/task',name:'create_task',methods:['POST'])]
@@ -47,26 +47,46 @@ class TaskController extends AbstractController{
         //Call the use case 
         // In this case we want to save it to the DB 
         //Call handleDTO form our AddTaskHandler class to save the data. 
-        $task = $this->addTaskHandler->handleDTO($taskDTO);
 
-        // We now want to return the task as JSON (with id and dateCreated)
-        
-
-        //Dummy Data to check if POST request works
-        return new JsonResponse([
+        try{
+            $task = $this->addTaskHandler->handle($taskDTO);
+            return new JsonResponse([
             'id' => $task->getId(),
             'title' => $task->getTitle(),
             'dateCreated' => $task->getDateCreated()
-        ]);
-
-
+            ]);
+        }catch(\RuntimeException $e){
+            return new JsonResponse([
+                'success'=> false,
+                'message'=> $e->getMessage()
+            ],500);
+        }
+    }
+//Delete Task 
+    //Create Route for Deleting Task 
+    #[Route('/task/{id}',name:'delete_task',methods:['DELETE'])]
+    public function deleteTask(string $id):JsonResponse{
+        try{
+            $this->deleteTaskHandler->handle($taskId);
+            return new JsonResponse([
+                'message'=>'Task Deleted'],200
+            );
+          
+        }catch(\RuntimeException $e){
+            //Error trying to delete the task. Cannot find task ...
+            return new JsonResponse([
+                'error'=> $e->getMessage()],404);
+        }
+        catch (\Exception $e) {
+            //System error, connection, server, etc....
+        return new JsonResponse([
+            'error' => 'An unexpected error occurred'], 500);
+    }
     }
 
-    //Test for checking if route works
-    // #[Route('/task',name:'task_index',methods:['GET'])]
-    // public function index():Response{
-    //     return new Response('Task route works from Presnation layer!');
-    // }
+
+
+
 
 
 }

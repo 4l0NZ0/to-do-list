@@ -19,7 +19,7 @@ class AddTaskHandler{
     }
 
     //We need a function to convert our DTO into a Domain Entity, which is our Task. 
-    public function handleDTO(TaskDTO $taskDTO): Task{
+    public function handle(TaskDTO $taskDTO): Task{
 
         //We take in a DTO
         //extract the title and set it to $title. 

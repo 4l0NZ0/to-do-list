@@ -17,7 +17,7 @@ interface TaskRepositoryInterface{
     // save the task to DB
     public function save(Task $task):void; 
     // delete task from DB 
-    public function delete(Task $task):void;
+    public function deleteTask(string $taskId):void;
     // find a task by given ID
     public function findById(Task $task):void;
     
