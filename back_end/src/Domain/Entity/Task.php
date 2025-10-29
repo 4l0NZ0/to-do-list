@@ -2,7 +2,7 @@
 namespace App\Domain\Entity;
 namespace App\Domain\ValueObjects\Title;
 namespace App\Domain\ValueObjects\TaskStatus;
-namespace App\Domain\ValueObjects\DueDate;
+namespace App\Domain\ValueObjects\DateCreated;
 
 
 
@@ -18,14 +18,9 @@ class Task{
     //Holds the title of the task. Type Title
     private Title $title;
 
-    //The task not really need to have a description. It can be empty 
-    private ?string $description;
-
-    // either the task it complete or not. Type TaskStatus 
-    private TaskStatus $status; 
 
     // Optional. Does not need to check for Due date. Type DueDate
-    private ?Duedate $dueDate;
+    private ?DateCreated $dateCreated;
 
 
 // We need a function to make the task. The task will need an input for Title, Description, Due date. ( For now)
@@ -33,16 +28,13 @@ class Task{
 
 // reference for naming standards: https://symfony.com/doc/current/contributing/code/standards.html
 //Setters for Object 
-public function __construct(Title $title, ?string $description = null, ?DueDate $dueDate = null ){
+public function __construct(Title $title, ?DateCreated $dateCreated = null ){
     // create unique id for task 
     $this -> id = Uuid::uuid4()->toString();
      
     $this -> title = $title;
 
-    $this ->description = $description;
-
-    $this -> status = TaskStatus::pending();
-    $this ->dueDate = $dueDate;
+    $this ->dateCreated = $dateCreated;
 }
 
 //this function updates if task is completed 
@@ -62,16 +54,9 @@ public function getTitle():Title{
     return $this->title;
 }
 
-public function getDescription():?string{
-    return $this->description;
-}
 
-public function getStatus():TaskStatus{
-    return $this->status;
-}
-
-public function getDueDate():?DueDate{
-    return $this->dueDate;
+public function getDateCreated():?DateCreated{
+    return $this->dateCreated;
 }
 
 
