@@ -29,8 +29,8 @@ class Task{
     #[ORM\Column(type: 'string',length:255)]
     private string $dateCreated;
 
-    #[ORM\column(type:'boolean')]
-    private bool $iscompleted = false ; 
+    #[ORM\Column(type:'boolean')]
+    private bool $isCompleted = false ; 
 
 // We need a function to make the task. The task will need an input for Title, Description, Due date. ( For now)
 
@@ -52,6 +52,17 @@ public function markAsCompleted():void{
 }
 public function updateTitle(Title $title):void{
     $this-> title = $title;
+}
+
+
+
+public function toggleTask():void{
+    if ($this->isCompleted == true ){
+        $this->isCompleted = false;  
+    }
+    elseif($this->isCompleted == false){
+        $this->isCompleted = true; 
+    }
 }
 
 

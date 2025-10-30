@@ -12,6 +12,8 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Application\DTO\TaskDTO;
 use App\Application\UseCase\AddTaskHandler;
 use App\Application\UseCase\DeleteTaskHandler;
+use App\Application\UseCase\ToggleTaskHandler;
+
 
 
 
@@ -26,11 +28,15 @@ class TaskController extends AbstractController{
     //Delete Task 
     private DeleteTaskHandler $deleteTaskHandler;
 
+    private ToggleTaskHandler $toggleTaskHandler;
+
+
 
     //Dependecy Injection
-    public function __construct(AddTaskHandler $addTaskHandler,DeleteTaskHandler $deleteTaskHandler){
+    public function __construct(AddTaskHandler $addTaskHandler,DeleteTaskHandler $deleteTaskHandler,ToggleTaskHandler $toggleTaskHandler){
           $this->addTaskHandler = $addTaskHandler;
           $this->deleteTaskHandler = $deleteTaskHandler;
+          $this->toggleTaskHandler = $toggleTaskHandler;
      }
 //Save Task 
     //Route: POST api/task
@@ -68,6 +74,39 @@ class TaskController extends AbstractController{
             ],500);
         }
     }
+
+// Task is Complete 
+// Since we only want partial modification(only to isCompleted)use PATCH. 
+#[Route('/task/{taskId}/toggle',name:'completed_task',methods:['PATCH'])]
+public function toggleTask(string $taskId):JsonResponse{
+ 
+ 
+    try{
+            $this->toggleTaskHandler->handle($taskId);
+            return new JsonResponse([
+                'message'=>'Task has been toggled'],200
+            );
+          
+        }catch(\RuntimeException $e){
+            //Error trying to delete the task. Cannot find task ...
+            return new JsonResponse([
+                'error'=> $e->getMessage()],404);
+        }
+        catch (\Exception $e) {
+            //System error, connection, server, etc....
+        return new JsonResponse([
+            'error' => 'An unexpected error occurred.'], 500);
+    }
+
+
+
+}
+
+
+
+
+
+
 //Delete Task 
     //Create Route for Deleting Task 
     #[Route('/task/{taskId}',name:'delete_task',methods:['DELETE'])]

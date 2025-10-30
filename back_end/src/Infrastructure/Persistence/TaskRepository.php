@@ -53,5 +53,27 @@ class TaskRepository implements TaskRepositoryInterface{
     }
 
 
+    public function toggleTask(string $taskId):void{
+
+        // We need to find the task by id. If the Task is found set it to $task
+            $task = $this->entityManager->getRepository(Task::class)->find($taskId);
+
+        //If no task is found we throw an error 
+            if(!$task){
+                throw $this->createNotFoundException(
+                    'No task found'
+                );
+            }
+        //If the task is found we want to remove it from the DB. 
+
+
+        $task->toggleTask();
+
+        $this->save($task);
+
+
+    }
+
+
 
 }
