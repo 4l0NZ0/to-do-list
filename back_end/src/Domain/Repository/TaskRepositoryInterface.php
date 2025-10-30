@@ -19,6 +19,6 @@ interface TaskRepositoryInterface{
     // delete task from DB 
     public function deleteTask(string $taskId):void;
     // find a task by given ID
-    public function findById(Task $task):void;
+   // public function findById(Task $task):void;
     
 }

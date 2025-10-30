@@ -1,8 +1,11 @@
 <?php
 namespace App\Domain\Entity;
-namespace App\Domain\ValueObjects\Title;
-namespace App\Domain\ValueObjects\TaskStatus;
-namespace App\Domain\ValueObjects\DateCreated;
+use App\Domain\ValueObjects\Title;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
+
+
 
 
 
@@ -11,30 +14,36 @@ namespace App\Domain\ValueObjects\DateCreated;
 //when it can do it
 //what conditions dictate when it can do that thing
 
+#[ORM\Entity]
+#[ORM\Table(name:'tasks')]
+
 class Task{
-    //Unique id which identifies this task. 
+
+    #[ORM\Id]
+    #[ORM\Column(type:'string',length:36)]
     private string $id;
 
-    //Holds the title of the task. Type Title
-    private Title $title;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $title;
 
+    #[ORM\Column(type: 'string',length:255)]
+    private string $dateCreated;
 
-    // Optional. Does not need to check for Due date. Type DueDate
-    private ?DateCreated $dateCreated;
-
+    #[ORM\column(type:'boolean')]
+    private bool $iscompleted = false ; 
 
 // We need a function to make the task. The task will need an input for Title, Description, Due date. ( For now)
 
 
 // reference for naming standards: https://symfony.com/doc/current/contributing/code/standards.html
 //Setters for Object 
-public function __construct(Title $title, ?DateCreated $dateCreated = null ){
+public function __construct(Title $title){
     // create unique id for task 
-    $this -> id = Uuid::uuid4()->toString();
+    $this -> id = Uuid::v4()->toString();
      
-    $this -> title = $title;
+    $this -> title = $title->getValue();
 
-    $this ->dateCreated = $dateCreated;
+    $this ->dateCreated = (new \DateTimeImmutable()->format('Y-m-d'));
 }
 
 //this function updates if task is completed 
@@ -50,12 +59,12 @@ public function getId():string{
     return $this->id;
 }
 
-public function getTitle():Title{
+public function getTitle():string{
     return $this->title;
 }
 
 
-public function getDateCreated():?DateCreated{
+public function getDateCreated():string{
     return $this->dateCreated;
 }
 

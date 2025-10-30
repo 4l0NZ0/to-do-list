@@ -1,6 +1,9 @@
 <?php
 namespace App\Application\UseCase;
 
+use App\Domain\Repository\TaskRepositoryInterface;
+
+
 class DeleteTaskHandler{
 
   private TaskRepositoryInterface $taskRepositoryInterface;
@@ -10,7 +13,9 @@ class DeleteTaskHandler{
   }
 
   public function handle(string $taskId):void{
+
     $this->taskRepositoryInterface->deleteTask($taskId);
+
   }
 
 }

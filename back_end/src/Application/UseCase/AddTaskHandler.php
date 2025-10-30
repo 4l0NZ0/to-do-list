@@ -4,8 +4,10 @@
 //Add a task to the system (DB)
 namespace App\Application\UseCase;
 
-use APP\Application\DTO\TaskDTO;
-use APP\Application\Domain\ValueObjects\Title;
+use App\Application\DTO\TaskDTO;
+use App\Domain\ValueObjects\Title;
+use App\Domain\Entity\Task;
+use App\Domain\Repository\TaskRepositoryInterface;
 
 
 class AddTaskHandler{
@@ -14,6 +16,7 @@ class AddTaskHandler{
 
 
     public function __construct(TaskRepositoryInterface $taskRepository){
+        
         $this->taskRepository = $taskRepository;
 
     }
@@ -31,7 +34,7 @@ class AddTaskHandler{
         $this->taskRepository->save($task);
 
         //Return the task entity (where to include id and date ?). 
-        return new $task;
+        return $task;
     }
 
 }

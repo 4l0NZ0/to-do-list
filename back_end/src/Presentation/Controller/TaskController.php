@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Application\DTO\TaskDTO;
 use App\Application\UseCase\AddTaskHandler;
+use App\Application\UseCase\DeleteTaskHandler;
+
 
 
 //Psudo Code 
@@ -18,13 +20,17 @@ use App\Application\UseCase\AddTaskHandler;
 
 class TaskController extends AbstractController{
 
-    // Declare constructor 
+    // Add Task  
     private AddTaskHandler $addTaskHandler;
+
+    //Delete Task 
+    private DeleteTaskHandler $deleteTaskHandler;
 
 
     //Dependecy Injection
-    public function __construct(AddTaskHandler $addTaskHandler){
-          $this->$addTaskHandler = $addTaskHandler;
+    public function __construct(AddTaskHandler $addTaskHandler,DeleteTaskHandler $deleteTaskHandler){
+          $this->addTaskHandler = $addTaskHandler;
+          $this->deleteTaskHandler = $deleteTaskHandler;
      }
 //Save Task 
     //Route: POST api/task
@@ -53,7 +59,7 @@ class TaskController extends AbstractController{
             return new JsonResponse([
             'id' => $task->getId(),
             'title' => $task->getTitle(),
-            'dateCreated' => $task->getDateCreated()
+            'dateCreated' => $task->getDateCreated(),
             ]);
         }catch(\RuntimeException $e){
             return new JsonResponse([
@@ -64,9 +70,14 @@ class TaskController extends AbstractController{
     }
 //Delete Task 
     //Create Route for Deleting Task 
-    #[Route('/task/{id}',name:'delete_task',methods:['DELETE'])]
-    public function deleteTask(string $id):JsonResponse{
+    #[Route('/task/{taskId}',name:'delete_task',methods:['DELETE'])]
+    public function deleteTask(string $taskId):JsonResponse{
+
+       
+
+
         try{
+           
             $this->deleteTaskHandler->handle($taskId);
             return new JsonResponse([
                 'message'=>'Task Deleted'],200
@@ -80,7 +91,7 @@ class TaskController extends AbstractController{
         catch (\Exception $e) {
             //System error, connection, server, etc....
         return new JsonResponse([
-            'error' => 'An unexpected error occurred'], 500);
+            'error' => 'An unexpected error occurred.'], 500);
     }
     }
 

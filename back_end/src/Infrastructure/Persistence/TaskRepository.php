@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Persistence;
 
 use App\Domain\Entity\Task;
+use App\Domain\Repository\TaskRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -16,7 +17,10 @@ class TaskRepository implements TaskRepositoryInterface{
     //Save to DB 
     public function save(Task $task):void{
 
+       
+
         try{
+ 
         // tell Doctrine you want to (eventually) save the Product (no queries yet)
         $this->entityManager->persist($task);
         // actually executes the queries (i.e. the INSERT query)
@@ -29,10 +33,11 @@ class TaskRepository implements TaskRepositoryInterface{
     }
 
     //delete 
-    public function deleteTask(string $taskId){
+    public function deleteTask(string $taskId):void{
+
 
         // We need to find the task by id. If the Task is found set it to $task
-            $task = $entityManager->getRepository(Task::class)->find($id);
+            $task = $this->entityManager->getRepository(Task::class)->find($taskId);
         
         //If no task is found we throw an error 
             if(!$task){
@@ -41,8 +46,8 @@ class TaskRepository implements TaskRepositoryInterface{
                 );
             }
         //If the task is found we want to remove it from the DB. 
-        $entityManager->remove($task);
-        $entityManage->flush();
+        $this->entityManager->remove($task);
+        $this->entityManager->flush();
 
 
     }

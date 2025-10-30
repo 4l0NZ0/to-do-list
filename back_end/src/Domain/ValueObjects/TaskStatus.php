@@ -1,5 +1,5 @@
 <?php
-namespace App\Domain\ValueObjects\TaskStatus;
+namespace App\Domain\ValueObjects;
 
 class TaskStatus{
     //Future features? 
