@@ -8,18 +8,19 @@ namespace App\Domain\Repository;
 use App\Domain\Entity\Task;
 
 interface TaskRepositoryInterface{
-    // We need to save
-    // Delete
-    // Update
-    // If we need to update or delete then we need to find the task by id. 
+  
 
 
-    // save the task to DB
+    // Save the task to DB. 
     public function save(Task $task):void; 
-    // delete task from DB 
+
+    // Delete task from DB by its unique Id.
     public function deleteTask(string $taskId):void;
-    // find a task by given ID
-   // public function findById(Task $task):void;
+   
+   // Toggle a task as complete or not complete by its unique Id. 
    public function toggleTask(string $taskId):void;
+
+   //Edit the title of a task by its unique Id. 
+   public function editTask(string $taskId, string $title):void;
     
 }

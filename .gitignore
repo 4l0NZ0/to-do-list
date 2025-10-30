@@ -7,6 +7,12 @@ frontend/to-do-list/build/
 # Backend (PHP)
 backend/vendor/
 backend/.env
+backend/.env.local
+backend/.env.local.php
+backend/.env.*.local
+backend/var/
+backend/public/bundles/
+
 
 # General
 .DS_Store

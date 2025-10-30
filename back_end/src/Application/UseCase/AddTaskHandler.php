@@ -10,16 +10,24 @@ use App\Domain\Entity\Task;
 use App\Domain\Repository\TaskRepositoryInterface;
 
 
+//Use Case for adding  a task. 
+//No business logic here. Just delegates the operation to the repo which handles the DB operations.  
+
+
 class AddTaskHandler{
 
-    private TaskRepositoryInterface $taskRepository;
+    //Repo interface for interacting with tasks data. Interaction with the DB. 
+    private TaskRepositoryInterface $taskRepositoryInterface;
 
-
-    public function __construct(TaskRepositoryInterface $taskRepository){
+     //Constructor for dependect Injection
+    public function __construct(TaskRepositoryInterface $taskRepositoryInterface){
         
-        $this->taskRepository = $taskRepository;
+        $this->taskRepositoryInterface = $taskRepositoryInterface;
 
     }
+
+ //Handles adding(saving task to DB) a task. 
+//Calls the repository to save a task. 
 
     //We need a function to convert our DTO into a Domain Entity, which is our Task. 
     public function handle(TaskDTO $taskDTO): Task{
@@ -31,7 +39,7 @@ class AddTaskHandler{
         //Put this information or title into the Domain Entity. Which only has a title
         $task = new Task($title);
 
-        $this->taskRepository->save($task);
+        $this->taskRepositoryInterface->save($task);
 
         //Return the task entity (where to include id and date ?). 
         return $task;

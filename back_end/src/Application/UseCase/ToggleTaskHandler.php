@@ -8,15 +8,15 @@ use App\Domain\Repository\TaskRepositoryInterface;
 
 class ToggleTaskHandler{
 
-  private TaskRepositoryInterface $toggleTaskHan;
+  private TaskRepositoryInterface $taskRepository;
 
-  public function __construct( TaskRepositoryInterface $taskRepositoryInterface){
-    $this->taskRepositoryInterface = $taskRepositoryInterface;
+  public function __construct( TaskRepositoryInterface $taskRepository){
+    $this->taskRepository = $taskRepository;
   }
 
   public function handle(string $taskId):void{
 
-    $this->taskRepositoryInterface->toggleTask($taskId);
+    $this->taskRepository->toggleTask($taskId);
 
   }
 

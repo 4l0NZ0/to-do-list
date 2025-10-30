@@ -13,6 +13,8 @@ use App\Application\DTO\TaskDTO;
 use App\Application\UseCase\AddTaskHandler;
 use App\Application\UseCase\DeleteTaskHandler;
 use App\Application\UseCase\ToggleTaskHandler;
+use App\Application\UseCase\EditTaskHandler;
+
 
 
 
@@ -22,26 +24,33 @@ use App\Application\UseCase\ToggleTaskHandler;
 
 class TaskController extends AbstractController{
 
-    // Add Task  
+    // Handles the use case for adding a new task to the system.
     private AddTaskHandler $addTaskHandler;
 
-    //Delete Task 
+    // Handles the use case for deleting an existing task by its ID.
     private DeleteTaskHandler $deleteTaskHandler;
 
+    // Handles the use case for toggling a task's completion status.
     private ToggleTaskHandler $toggleTaskHandler;
+
+    // Handles the use case for editing/updating a task's title.
+    private EditTaskHandler $editTaskHandler; 
 
 
 
     //Dependecy Injection
-    public function __construct(AddTaskHandler $addTaskHandler,DeleteTaskHandler $deleteTaskHandler,ToggleTaskHandler $toggleTaskHandler){
+    public function __construct(AddTaskHandler $addTaskHandler,DeleteTaskHandler $deleteTaskHandler,ToggleTaskHandler $toggleTaskHandler,EditTaskHandler $editTaskHandler){
           $this->addTaskHandler = $addTaskHandler;
           $this->deleteTaskHandler = $deleteTaskHandler;
           $this->toggleTaskHandler = $toggleTaskHandler;
+          $this->editTaskHandler = $editTaskHandler;
      }
+
+
 //Save Task 
     //Route: POST api/task
     // Need to handle the POST request. Extract data needed and send to DTO
-    #[Route('/task',name:'create_task',methods:['POST'])]
+#[Route('/task',name:'create_task',methods:['POST'])]
     public function createTask(Request $request):JsonResponse{
         
         //Using json_decode we extract the data and $data is now the extracted data from the request. 
@@ -56,17 +65,18 @@ class TaskController extends AbstractController{
         //Get the title from the data field title 
         $taskDTO = new TaskDTO($data['title']);
 
-        //Call the use case 
-        // In this case we want to save it to the DB 
-        //Call handleDTO form our AddTaskHandler class to save the data. 
-
+        //Call the use case for adding task 
         try{
             $task = $this->addTaskHandler->handle($taskDTO);
+
+            //We return the added data 
             return new JsonResponse([
             'id' => $task->getId(),
             'title' => $task->getTitle(),
             'dateCreated' => $task->getDateCreated(),
             ]);
+
+            //if error happens we print it out 
         }catch(\RuntimeException $e){
             return new JsonResponse([
                 'success'=> false,
@@ -75,16 +85,62 @@ class TaskController extends AbstractController{
         }
     }
 
-// Task is Complete 
-// Since we only want partial modification(only to isCompleted)use PATCH. 
-#[Route('/task/{taskId}/toggle',name:'completed_task',methods:['PATCH'])]
+// Toggle Task 
+// Since we only want partial modification(toggle isCompleted)use PATCH. 
+#[Route('/task/{taskId}/toggle',name:'toggle_task',methods:['PATCH'])]
 public function toggleTask(string $taskId):JsonResponse{
  
- 
+      //Check if task Id is missing or empty  
+        if (empty($taskId)) {
+             return new JsonResponse(['error' => 'Task ID is required'], 400);
+        }
     try{
+        
+            //Call the case for toggling 
             $this->toggleTaskHandler->handle($taskId);
             return new JsonResponse([
                 'message'=>'Task has been toggled'],200
+            );
+          
+        }catch(\RuntimeException $e){
+            //Error trying to delete the task. Cannot find task ...
+            return new JsonResponse([
+                'error'=> $e->getMessage()],404);
+        }
+        catch (\Exception $e) {
+            //System error, connection, server, etc....
+        return new JsonResponse([
+            'error' => 'An unexpected error occurred.'], 500);
+    }
+
+
+
+}
+
+//Edit Task 
+//Use PATCH since we are only changing the title and not replacing entire entity. 
+#[Route('/task/{taskId}/edit',name:'edit_task',methods:['PATCH'])]
+public function editTask(string $taskId, Request $request):JsonResponse{
+    //Check if task Id is missing or empty  
+        if (empty($taskId)) {
+             return new JsonResponse(['error' => 'Task ID is required'], 400);
+        }
+      //Using json_decode we extract the data and $data is now the extracted data from the request. 
+      //Decode in order to get the new title. 
+        $data = json_decode($request->getContent(),true);
+
+        //We need to check title was provided. 
+        if (empty($data)){
+            return new JsonResponse (['error'=>'Title is required'],400);
+        }
+ 
+  
+
+    try{
+        //Use the case for editing the title 
+            $this->editTaskHandler->handle($taskId,$data['title']);
+            return new JsonResponse([
+                'message'=>'Task has been updated'],200
             );
           
         }catch(\RuntimeException $e){
@@ -106,17 +162,18 @@ public function toggleTask(string $taskId):JsonResponse{
 
 
 
-
 //Delete Task 
     //Create Route for Deleting Task 
     #[Route('/task/{taskId}',name:'delete_task',methods:['DELETE'])]
     public function deleteTask(string $taskId):JsonResponse{
-
-       
-
+    
+        //Check if task Id is missing or empty  
+        if (empty($taskId)) {
+             return new JsonResponse(['error' => 'Task ID is required'], 400);
+        }
 
         try{
-           
+           //Use the case for deleting the task 
             $this->deleteTaskHandler->handle($taskId);
             return new JsonResponse([
                 'message'=>'Task Deleted'],200
@@ -133,11 +190,6 @@ public function toggleTask(string $taskId):JsonResponse{
             'error' => 'An unexpected error occurred.'], 500);
     }
     }
-
-
-
-
-
 
 }
 

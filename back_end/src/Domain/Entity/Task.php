@@ -6,14 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
 
-
-
-
-
-//can do
-//when it can do it
-//what conditions dictate when it can do that thing
-
 #[ORM\Entity]
 #[ORM\Table(name:'tasks')]
 
@@ -36,26 +28,21 @@ class Task{
 
 
 // reference for naming standards: https://symfony.com/doc/current/contributing/code/standards.html
-//Setters for Object 
+// Constructor for Task entity: initializes ID, title, and creation date
 public function __construct(Title $title){
+    
     // create unique id for task 
     $this -> id = Uuid::v4()->toString();
-     
+
+
+    // Set the task title using the given title.  
     $this -> title = $title->getValue();
 
+    //Record the date the task was created and format it to (Year, month, day);
     $this ->dateCreated = (new \DateTimeImmutable()->format('Y-m-d'));
 }
 
-//this function updates if task is completed 
-public function markAsCompleted():void{
-    $this->status = TaskStatus::completed();
-}
-public function updateTitle(Title $title):void{
-    $this-> title = $title;
-}
-
-
-
+//Toggle the task as completed or not completed. If a task is not completed then it marks is as completed. If the task is mark a comleted it is mark as not completed. 
 public function toggleTask():void{
     if ($this->isCompleted == true ){
         $this->isCompleted = false;  
@@ -65,20 +52,28 @@ public function toggleTask():void{
     }
 }
 
+//Set title of the task to the new title. 
+public function editTitle(string $title):void{
+    $this->title = $title; 
+}
 
+
+//Get the id of the task.
 public function getId():string{
     return $this->id;
 }
 
+
+//Get the title of the task. 
 public function getTitle():string{
     return $this->title;
 }
 
 
+// Get the date for when the task was created. 
 public function getDateCreated():string{
     return $this->dateCreated;
 }
-
 
 
 }
