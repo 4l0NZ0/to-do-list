@@ -177,11 +177,9 @@ public function editTask(string $taskId, Request $request):JsonResponse{
             return new JsonResponse (['error'=>'Title is required'],400);
         }
  
-  
-
     try{
         //Use the case for editing the title 
-            $this->editTaskHandler->handle($taskId,$data['title']);
+           $this->editTaskHandler->handle($taskId,$data['title']);
             return new JsonResponse([
                 'message'=>'Task has been updated'],200
             );

@@ -1,28 +1,31 @@
 <script>
-    // showModal comes from parent. Hold the true or false in order to show. 
-    //
-    let {showModal = $bindable(),... props} = $props();
+	let { showModal = $bindable(), header,children } = $props();
 
-    //set dialog to state. 
-    let dialog = $state();
-   
-    
+	let dialog = $state(); // HTMLDialogElement
 
-    // if showModal is true then make the dialog show. 
-    // reference to dialog : https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog
-    $effect(()=>{
-        if (showModal) dialog.showModal();
-    })
-
-
+	$effect(() => {
+		if (showModal) dialog.showModal();
+	});
 </script>
-<!-- assign html element <dialog> to the dialog variable when the component is mounted.-->
- <!-- We want to make use that no matter how the window is closed that showModal is set to false. So onclose helps to sync everything together. If the modal is closed using the button or esc or x then showModal always set to false. -->
+
+<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
 <dialog
 	bind:this={dialog}
-   
 	onclose={() => (showModal = false)}
+	onclick={(e) => { if (e.target === dialog) dialog.close(); }}
+	class="fixed inset-0 m-auto w-96 p-6 rounded-lg bg-white shadow-lg flex flex-col items-center justify-center"
 >
-    <p>Hello world</p>
-       	<button  onclick={() => dialog.close()}>close modal</button>
+<!-- svelte-ignore a11y_consider_explicit_label -->
+<button  class="absolute top-2 right-2 text-gray-500 hover:text-gray-700" autofocus onclick={() => dialog.close()}><i class="fa-solid fa-circle-xmark" style='font-size:24px'></i></button>
+
+<div class="w-full">
+			{@render header?.()}
+		<hr />
+		{@render children?.()}
+		<hr />
+		
+		<!-- svelte-ignore a11y_autofocus -->
+		
+	</div>
 </dialog>
+

@@ -5,10 +5,11 @@
     // onAdd hold the function, if no function provided default to empty function. 
     //Get the props from parent 
 
-    let {task = $bindable(""),onAdd = () =>{}} = $props();
+    let {task = $bindable(),onUpdate = () =>{}} = $props();
+    // svelte-ignore non_reactive_update
+        let newTitle = ""
     
-    
-    let placeholder ="Add Task .....";
+    let placeholder ="Edit Task title .....";
 
      /* 
     addTask() is called when the user presses the Add task button. 
@@ -19,16 +20,12 @@
 
      */
 
-    function addTask(){
-        //If task is not empty, send it to the parents and clear the value. 
-        if (task != ""){
-        onAdd(task);
-        task="";
+    function editTaskTitle(){
+        if (newTitle.trim() === ""){
+            console.log("Need to put title")
         }
-        //else if empty still send it. Parent should handle case if empty. 
-        else{
-            onAdd(task);
-        }
+
+        onUpdate(newTitle);
     }
 </script>
 
@@ -37,12 +34,14 @@
 <div> 
 <input 
     type = "text" 
-    bind:value={task} 
+    bind:value={newTitle} 
     placeholder={placeholder}
     style="color:red"
     class = "mt-4"
     />
-    <Button  on:click={addTask} text="Add Task"/>
-  
+    <div class = "mt-4">
+    <Button  on:click={editTaskTitle} text="Update Task Title"/>
+
+    </div>
 
 </div>

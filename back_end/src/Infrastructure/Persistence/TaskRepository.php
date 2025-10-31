@@ -102,7 +102,7 @@ class TaskRepository implements TaskRepositoryInterface{
     public function editTask(string $taskId, string $title):void{
 
         // We need to find the task by id. If the Task is found set it to $task
-            $task = $this->entityManager->getRepository(Task::class)->find($taskId);
+         $task = $this->entityManager->getRepository(Task::class)->find($taskId);
 
         //If no task is found we throw an error 
             if(!$task){
@@ -117,6 +117,7 @@ class TaskRepository implements TaskRepositoryInterface{
        
         // save changes 
         $this->save($task);
+     
 
 
     }

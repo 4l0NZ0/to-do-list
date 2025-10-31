@@ -2,7 +2,7 @@
           import '@fortawesome/fontawesome-free/css/all.min.css';
 
     // Used to check if the check button on a card has been checked. 
-    let {checked = $bindable(), task, deleteTask = () =>{},toggleTask = () =>{} } = $props();
+    let {checked = $bindable(), task, deleteTask = () =>{},toggleTask = () =>{},showModal = () =>{} } = $props();
 
 
 
@@ -20,9 +20,18 @@
         }
     }
 
+   
+    /**
+   * @param {any} task
+   */
+    function handleShowModal(task){
+        console.log("Child");
+        showModal(task);
+      
+    }
   
     function handleDeleteTask(){
-        deleteTask(task.id)
+        deleteTask(task.id);
     }
     //when the check mark is clicked. We change the class to line through and the text color 
     // When the check is not clicked we have no change. 
@@ -34,16 +43,13 @@
                     <div>
                         <!-- svelte-ignore a11y_consider_explicit_label -->
                          {#if task.isCompleted}
-                            <button onclick={chekedButton}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-slate-500">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                            </svg> 
+                            <button onclick={chekedButton}> <i class="fa-solid fa-circle-check" style='font-size:24px'></i>
+                            
                         </button>
                          {:else}
                          <button onclick={chekedButton}>
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-slate-500 hover:text-indigo-600 hover:cursor-pointer">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
+                            <i class="fa-regular fa-circle-check" style='font-size:24px'></i>
+                          
                                       </button>        
 
                          {/if}
@@ -69,7 +75,8 @@
              
 
                 <div>
-                    <button onclick={handleDeleteTask}>
+                    <!-- svelte-ignore a11y_consider_explicit_label -->
+                    <button onclick={()=>handleShowModal(task)}>
                     <i class='fas fa-edit' style='font-size:24px'></i>
                       </button> 
                    

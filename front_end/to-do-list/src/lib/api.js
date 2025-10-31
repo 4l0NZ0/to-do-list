@@ -101,3 +101,33 @@ export async function isCompleted(taskId){
     
 
 }
+
+
+/**
+ * @param {any} taskId
+ */
+// @ts-ignore
+export async function editTask(taskId, newTitle){
+
+    try{
+        const response = await fetch(`${BASE_URL}/task/${taskId}/edit`,{
+        method:'PATCH',
+        headers:{"Content-type":"application/json"},
+        body:JSON.stringify({title:newTitle})
+       
+    });
+       //If error 
+    if (!response.ok){
+        const err = await response.json().catch(()=>({}));
+        console.log(err);
+       // throw new Error(err.details || "Failed to add task. ")
+    }
+
+     return await response.json();
+
+    }catch(err){
+        console.log(err);
+    }
+   
+
+}
