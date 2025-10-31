@@ -78,8 +78,8 @@
 
                      {#if task.isCompleted}
                         <!-- svelte-ignore a11y_consider_explicit_label -->
-                        <button onclick={()=>handleShowModal(task)}>
-                         <i class='fas fa-edit ' style='font-size:24px'></i>
+                        <button onclick={()=>handleShowModal(task)} disabled={task.isCompleted}>
+                         <i class='fas fa-edit text-slate-500 ' style='font-size:24px'></i>
                       </button> 
 
                       {:else}
