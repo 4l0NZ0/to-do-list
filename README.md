@@ -4,14 +4,14 @@ Users can add, edit, delete, and mark tasks as complete .
 
 
 ## Features
--Add new tasks
--Edit task titles
--Delete tasks
--Mark tasks as completed
--Real-time updates in the frontend
--Error handling and success messages
--Modal for editing tasks
--Responsive UI with TailwindCSS
+- Add new tasks
+- Edit task titles
+- Delete tasks
+- Mark tasks as completed
+- Real-time updates in the frontend
+- Error handling and success messages
+- Modal for editing tasks
+- Responsive UI with TailwindCSS
 
 
 
@@ -30,40 +30,40 @@ Users can add, edit, delete, and mark tasks as complete .
 ## Installation/ Setup 
 ### Backend
 
--Clone the repository:
+- Clone the repository:
 ```
 git clone <repo-url>
 cd backend
 ```
 
--Install dependencies:
+- Install dependencies:
 ```
 composer install
 
 ```
--Set up your .env file for database connection.
+- Set up your .env file for database connection.
 
--Run migrations (if applicable):
+- Run migrations (if applicable):
 ```
 php bin/console doctrine:migrations:migrate
 ```
 
--Start the server:
+- Start the server:
 ```
 symfony server:start
 ```
 ### Frontend
 
--Navigate to the frontend folder:
+- Navigate to the frontend folder:
 ```
 cd frontend
 ```
--Install dependencies:
+- Install dependencies:
 ```
 npm install
 ```
 
--Start the dev server:
+- Start the dev server:
 ```
 npm run dev
 ```
