@@ -1,5 +1,5 @@
 <script>
-    import {createTask,loadTasks,deleteTask} from "$lib/api";
+    import {createTask,loadTasks,deleteTask, isCompleted} from "$lib/api";
     import Button from '$lib/Button.svelte';
     import TodoInputField from '$lib/TodoInputField.svelte';
     import ErrorMessage from '$lib/ErrorMessage.svelte';
@@ -87,6 +87,26 @@
     }
 
        }
+
+  /**
+   * @param {string | any[]} taskId
+   */
+async function handleisCompleted(taskId){
+    if (taskId.length == 0){
+            console.log("No id")
+            
+        }
+            else{
+            console.log(taskId);
+           await isCompleted(taskId);
+             
+    }
+}
+
+
+
+
+
 // If newTask is changed, meaning it is not empty, close the error message. User can either use the close button or when they start to type into the input field. Better UX. 
   $: if (newTask.trim() != ""){
     showErrorMessage = false;
@@ -110,7 +130,7 @@
             <TodoInputField  bind:task={newTask} onAdd = {addTask} />
         <div class="self-center w-auto">
             {#each tasks as task }
-            <TaskCard bind:checked={task.isCompleted} task = {task} deleteTask = {handledeleteTask}/>
+            <TaskCard bind:checked={task.isCompleted} task = {task} deleteTask = {handledeleteTask} toggleTask = {handleisCompleted}/>
 
             {/each}
         </div>

@@ -75,3 +75,29 @@ export async function deleteTask(taskId){
     
 
 }
+
+
+/**
+ * @param {any} taskId
+ */
+export async function isCompleted(taskId){
+
+    try{
+        const response = await fetch(`${BASE_URL}/task/${taskId}/toggle`,{
+        method:'PATCH',
+        headers:{"Content-type":"application/json"}
+       
+    });
+       //If error 
+    if (!response.ok){
+        const err = await response.json().catch(()=>({}));
+        console.log(err);
+       // throw new Error(err.details || "Failed to add task. ")
+    }
+
+    }catch(err){
+        console.log(err);
+    }
+    
+
+}
