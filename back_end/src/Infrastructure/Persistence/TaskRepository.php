@@ -26,7 +26,6 @@ class TaskRepository implements TaskRepositoryInterface{
     public function loadTasks():array{
         try{
             $tasks = $this->entityManager->getRepository(Task::class)->findAll();
-            dd($tasks);
             return $tasks; 
 
         }catch(\Exception $e){

@@ -58,6 +58,10 @@ public function editTitle(string $title):void{
 }
 
 
+public function getIsCompleted():bool{
+    return $this->isCompleted;
+}
+
 //Get the id of the task.
 public function getId():string{
     return $this->id;

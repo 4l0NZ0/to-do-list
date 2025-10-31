@@ -2,18 +2,18 @@
 import Button from "./Button.svelte";
 // showErrorMessage is bindable prop. Shared with the parent component. 
 //Allow parent to control the error message. Close or show. 
-let {showErrorMessage = $bindable(false), message} = $props();
+let {showSuccessMessage = $bindable(false), message} = $props();
 
 
 
 </script>
 
-<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-  <strong class="font-bold">Input Field Empty!</strong>
+<div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+  <strong class="font-bold">Success!</strong>
   <span class="block sm:inline">{message} </span>
   <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
   </span>
-    <Button on:click={()=> (showErrorMessage = false)} text="Close"/>
+    <Button on:click={()=> (showSuccessMessage = false)} text="Close"/>
 
 
 </div>

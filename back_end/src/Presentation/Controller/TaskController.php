@@ -67,7 +67,16 @@ class TaskController extends AbstractController{
             return new JsonResponse (['Notice:'=>'You have no tasks. '],400);
             }
             //We return the tasks in DB 
-            return new JsonResponse($tasks,200);
+            //Map  tasks to arrays
+            $tasksArray = array_map(function($task) {
+            return [
+                    'id' => $task->getId(),
+                    'title' => $task->getTitle(),
+                    'dateCreated' => $task->getDateCreated(),
+                    'isCompleted' => $task->getIsCompleted(),
+                    ];
+                    }, $tasks);
+            return new JsonResponse($tasksArray,200);
 
             //if error happens we print it out 
         }catch(\RuntimeException $e){

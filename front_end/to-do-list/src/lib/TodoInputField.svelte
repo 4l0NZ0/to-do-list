@@ -25,7 +25,7 @@
         onAdd(task);
         task="";
         }
-        //else if empty still send it. Parent shold handle case if empty. 
+        //else if empty still send it. Parent should handle case if empty. 
         else{
             onAdd(task);
         }
