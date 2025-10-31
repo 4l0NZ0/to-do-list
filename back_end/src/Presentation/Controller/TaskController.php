@@ -14,6 +14,8 @@ use App\Application\UseCase\AddTaskHandler;
 use App\Application\UseCase\DeleteTaskHandler;
 use App\Application\UseCase\ToggleTaskHandler;
 use App\Application\UseCase\EditTaskHandler;
+use App\Application\UseCase\LoadTasksHandler;
+
 
 
 
@@ -36,20 +38,54 @@ class TaskController extends AbstractController{
     // Handles the use case for editing/updating a task's title.
     private EditTaskHandler $editTaskHandler; 
 
+    //Handles the use case for Loading tasks from DB 
+    private LoadTasksHandler $loadTasksHandler; 
+
+
 
 
     //Dependecy Injection
-    public function __construct(AddTaskHandler $addTaskHandler,DeleteTaskHandler $deleteTaskHandler,ToggleTaskHandler $toggleTaskHandler,EditTaskHandler $editTaskHandler){
+    public function __construct(AddTaskHandler $addTaskHandler,DeleteTaskHandler $deleteTaskHandler,ToggleTaskHandler $toggleTaskHandler,EditTaskHandler $editTaskHandler,LoadTasksHandler $loadTasksHandler){
           $this->addTaskHandler = $addTaskHandler;
           $this->deleteTaskHandler = $deleteTaskHandler;
           $this->toggleTaskHandler = $toggleTaskHandler;
           $this->editTaskHandler = $editTaskHandler;
+          $this->loadTasksHandler = $loadTasksHandler;
      }
+//Load the tasks from the DB
+//Use GET request
+#[Route('/tasks',name:'loads_tasks',methods:['GET'])]
+    public function loadTasks():JsonResponse{
+        
+        
+        //Call the use case for adding task 
+        try{
+            //need to return an array of tasks
+            $tasks = $this->loadTasksHandler->handle();
+            
+            if (empty($tasks)){
+            return new JsonResponse (['Notice:'=>'You have no tasks. '],400);
+            }
+            //We return the tasks in DB 
+            return new JsonResponse($tasks,200);
+
+            //if error happens we print it out 
+        }catch(\RuntimeException $e){
+            return new JsonResponse([
+                'success'=> false,
+                'message'=> $e->getMessage()
+            ],500);
+        }
+    }
+
+
+
+
 
 
 //Save Task 
-    //Route: POST api/task
-    // Need to handle the POST request. Extract data needed and send to DTO
+//Route: POST api/task
+// Need to handle the POST request. Extract data needed and send to DTO
 #[Route('/task',name:'create_task',methods:['POST'])]
     public function createTask(Request $request):JsonResponse{
         
@@ -112,8 +148,6 @@ public function toggleTask(string $taskId):JsonResponse{
         return new JsonResponse([
             'error' => 'An unexpected error occurred.'], 500);
     }
-
-
 
 }
 

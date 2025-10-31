@@ -22,5 +22,8 @@ interface TaskRepositoryInterface{
 
    //Edit the title of a task by its unique Id. 
    public function editTask(string $taskId, string $title):void;
+
+   //Load Tasks from DB 
+   public function loadTasks():array;
     
 }

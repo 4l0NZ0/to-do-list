@@ -1,5 +1,8 @@
 <?php
+
+//
 //Reference for self : https://symfony.com/doc/current/doctrine.html
+
 namespace App\Infrastructure\Persistence;
 
 use App\Domain\Entity\Task;
@@ -17,6 +20,29 @@ class TaskRepository implements TaskRepositoryInterface{
     public function __construct(EntityManagerInterface $entityManager){
         $this->entityManager = $entityManager;
     }
+
+
+    // Get all task from the DB to display 
+    public function loadTasks():array{
+        try{
+            $tasks = $this->entityManager->getRepository(Task::class)->findAll();
+            dd($tasks);
+            return $tasks; 
+
+        }catch(\Exception $e){
+        // If anything goes wrong, throw a RuntimeException so the caller can handle it
+        throw new \RuntimeException("Failed to save task.");
+
+        }
+    }
+
+
+
+
+
+
+
+
 
     //Save a new task to the Db. 
     public function save(Task $task):void{
@@ -73,9 +99,6 @@ class TaskRepository implements TaskRepositoryInterface{
 
     }
 
-
-
-
    // Edit the task title for an existing task 
     public function editTask(string $taskId, string $title):void{
 
@@ -98,6 +121,9 @@ class TaskRepository implements TaskRepositoryInterface{
 
 
     }
+
+
+
 
 
 
