@@ -32,7 +32,7 @@
     type = "text" 
     bind:value={newTitle} 
     placeholder={placeholder}
-    style="color:red"
+    style="color:black"
     class = "mt-4"
     />
     <div class = "mt-4">

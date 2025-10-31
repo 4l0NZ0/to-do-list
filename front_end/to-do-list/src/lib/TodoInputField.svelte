@@ -39,7 +39,7 @@
     type = "text" 
     bind:value={task} 
     placeholder={placeholder}
-    style="color:red"
+    style="color:black"
     class = "mt-4"
     />
     <Button  on:click={addTask} text="Add Task"/>

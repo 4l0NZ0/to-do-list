@@ -200,7 +200,7 @@
     }
     }
 
-
+///Reactive
 // If newTask is changed, meaning it is not empty, close the error message. User can either use the close button or when they start to type into the input field. Better UX. 
   $: if (newTask.trim() != ""){
     showErrorMessage = false;
