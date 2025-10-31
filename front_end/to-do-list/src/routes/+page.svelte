@@ -15,6 +15,8 @@
     
     */
    let showErrorMessage = false;
+   let showErrorMessageForModal = false;
+
    let showSuccessMessage = false; 
 
    let showModal = false; 
@@ -30,8 +32,10 @@
     let taskToEdit = null;
 
 
-   
-  
+   function showeModalError(){
+    showErrorMessageForModal = true; 
+   }
+
   
 
     onMount(async()=>{
@@ -142,7 +146,10 @@ async function handleisCompleted(taskId){
 async function handleEditTask(newTitle){
     //Check that we have a task to edit. Get it from the edit button. 
     //If we do not have a task we return. 
+
     if(!taskToEdit)return;
+
+        showErrorMessageForModal = false; 
 
     // If we do have a task 
     try{
@@ -226,13 +233,19 @@ async function handleEditTask(newTitle){
     </div>
 
     {#if showModal}
-    <Modal bind:showModal>
+    <Modal bind:showModal bind:showErrorMessageForModal>
 	{#snippet header()}
 		 <h1 class="text-3xl font-bold mb-4 ">Edit Task Title </h1>
 	{/snippet}
 <div class="flex justify-center">
     <div class = "w-full max-w-md px-6 mt-4">
-            <EditTaskField task = {taskToEdit} onUpdate = {handleEditTask}/>
+         {#if showErrorMessageForModal}
+            <ErrorMessage bind:showErrorMessage = {showErrorMessageForModal} message={responseMessage}/>
+            
+            {/if}
+
+      
+            <EditTaskField task = {taskToEdit} onUpdate = {handleEditTask} showError= {showeModalError} />
 
         </div>
 </div>

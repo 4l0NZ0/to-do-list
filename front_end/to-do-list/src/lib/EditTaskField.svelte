@@ -5,7 +5,7 @@
     // onAdd hold the function, if no function provided default to empty function. 
     //Get the props from parent 
 
-    let {task = $bindable(),onUpdate = () =>{}} = $props();
+    let {task = $bindable(),onUpdate = () =>{},showError = () =>{}} = $props();
     // svelte-ignore non_reactive_update
         let newTitle = ""
     
@@ -23,9 +23,15 @@
     function editTaskTitle(){
         if (newTitle.trim() === ""){
             console.log("Need to put title")
+            //Need to call error 
+            showError();
+
+        }
+        else{
+        onUpdate(newTitle);
+
         }
 
-        onUpdate(newTitle);
     }
 </script>
 
