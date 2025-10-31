@@ -1,7 +1,7 @@
 <script>
     import Button from "./Button.svelte";
     //svelt 5 need to use $props instead of export let 
-    //task is the task value from the input field. 
+    //task is the task value from the input field. We bind it so when user types error message goes away. 
     // onAdd hold the function, if no function provided default to empty function. 
     //Get the props from parent 
 

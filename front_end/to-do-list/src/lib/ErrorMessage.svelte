@@ -2,7 +2,7 @@
 import Button from "./Button.svelte";
 // showErrorMessage is bindable prop. Shared with the parent component. 
 //Allow parent to control the error message. Close or show. 
-let {showErrorMessage = $bindable(false), message} = $props();
+let {showErrorMessage = $bindable(), message} = $props();
 
 
 

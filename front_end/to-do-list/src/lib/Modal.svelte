@@ -1,12 +1,19 @@
 <script>
+
+	//Props from parent
+	//Show Modal and ShowErrorMessageForModal bindable so parent can react to changes. 
 	let { showModal = $bindable(),showErrorMessageForModal= $bindable(), header,children } = $props();
 
+	// Hold ref to dialog
 	let dialog = $state(); // HTMLDialogElement
 
+	// Reactive effect: runs whenever `showModal` changes
 	$effect(() => {
+	// If showModal is true, open the dialog
 		if (showModal) dialog.showModal();
 	});
 
+	//Function to handle closing the modal and clearing error messages. 
 	function handleError(){
 		showModal = false;
 		showErrorMessageForModal = false;

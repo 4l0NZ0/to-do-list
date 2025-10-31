@@ -1,7 +1,12 @@
 <script>
           import '@fortawesome/fontawesome-free/css/all.min.css';
 
-    // Used to check if the check button on a card has been checked. 
+    // checked: Used to check if the check button on a card has been checked. 
+
+    //task is used to hold the task object.
+    //deleteTask used to call delete function on a task. 
+    //toggleTask used to mark the task as completed or not completed. 
+    //showModal used to show the modal and pass the task object for the given clicked task. 
     let {checked = $bindable(), task, deleteTask = () =>{},toggleTask = () =>{},showModal = () =>{} } = $props();
 
 
@@ -24,17 +29,19 @@
     /**
    * @param {any} task
    */
+
+   //Used to show the modal when the edit button clicked. 
+   //Passes the task object from the given task that the edit button was cliked from. 
     function handleShowModal(task){
-        console.log("Child");
         showModal(task);
       
     }
   
+    //Used to delete a task based on the given id.
     function handleDeleteTask(){
         deleteTask(task.id);
     }
-    //when the check mark is clicked. We change the class to line through and the text color 
-    // When the check is not clicked we have no change. 
+     
 </script>
 
 <div >

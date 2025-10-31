@@ -1,24 +1,17 @@
 <script>
     import Button from "./Button.svelte";
     //svelt 5 need to use $props instead of export let 
-    //task is the task value from the input field. 
-    // onAdd hold the function, if no function provided default to empty function. 
-    //Get the props from parent 
-
+    //task is the task object we are going to edit. 
+    //onUpdate is our function used to call the handleEditTask in order to edit the task. 
+    //Show Error used to call function to an error window within the modal.
     let {task = $bindable(),onUpdate = () =>{},showError = () =>{}} = $props();
+
+
     // svelte-ignore non_reactive_update
-        let newTitle = ""
-    
+    let newTitle = "" //Will hold the value from the input field. 
+
+    //Place holder for our input 
     let placeholder ="Edit Task title .....";
-
-     /* 
-    addTask() is called when the user presses the Add task button. 
-    Checks if the value of task is empty. If it is not empty then send it to the parent and then clear the value. 
-    Else if the value is empty you do not need to clear it but send the empty value to the parent. 
-    Empty value is sent in order for the parent to then let the user know " Field is empty you cannot add a task"
-    This should be handled by the parent. Input should only handle the value. 
-
-     */
 
     function editTaskTitle(){
         if (newTitle.trim() === ""){
@@ -28,14 +21,11 @@
 
         }
         else{
+        //functon used to call the handleEditTask and passes the new title of the task to update it in the backed. 
         onUpdate(newTitle);
-
         }
-
     }
 </script>
-
-
 
 <div> 
 <input 
