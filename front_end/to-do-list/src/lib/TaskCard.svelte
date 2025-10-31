@@ -75,10 +75,22 @@
              
 
                 <div>
-                    <!-- svelte-ignore a11y_consider_explicit_label -->
-                    <button onclick={()=>handleShowModal(task)}>
-                    <i class='fas fa-edit' style='font-size:24px'></i>
+
+                     {#if task.isCompleted}
+                        <!-- svelte-ignore a11y_consider_explicit_label -->
+                        <button onclick={()=>handleShowModal(task)}>
+                         <i class='fas fa-edit ' style='font-size:24px'></i>
                       </button> 
+
+                      {:else}
+                       <!-- svelte-ignore a11y_consider_explicit_label -->
+                        <button onclick={()=>handleShowModal(task)}>
+                         <i class='fas fa-edit ' style='font-size:24px'></i>
+                      </button> 
+                     {/if}
+
+                    <!-- svelte-ignore a11y_consider_explicit_label -->
+                    
                    
                     <!-- svelte-ignore a11y_consider_explicit_label -->
                     <button onclick={handleDeleteTask}>

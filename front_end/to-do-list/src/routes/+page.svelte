@@ -129,7 +129,8 @@ async function handleisCompleted(taskId){
       function showEditModal(task){
         taskToEdit = task;
         showModal = true; 
-        
+        console.log("Modal triggered for",taskToEdit);
+
 
     
    }
@@ -148,15 +149,20 @@ async function handleEditTask(newTitle){
         // @ts-ignore
     const upDatedTitle =  await editTask(taskToEdit.id, newTitle);
 
+    tasks = tasks.map((t)=>
+        // @ts-ignore
+        t.id === taskToEdit.id ? {...t, title:upDatedTitle.title } :t);
+
     
     // @ts-ignore
-    console.log(upDatedTitle);
+    //console.log(upDatedTitle);
     
     showModal = false; 
         
         //we now update the front end. 
 
     }catch(error){
+        console.error("Failed to edit task:",error);
 
     }
 
