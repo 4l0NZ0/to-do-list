@@ -15,6 +15,8 @@ use App\Application\UseCase\DeleteTaskHandler;
 use App\Application\UseCase\ToggleTaskHandler;
 use App\Application\UseCase\EditTaskHandler;
 use App\Application\UseCase\LoadTasksHandler;
+use App\Domain\Entity\Task;
+
 
 
 
@@ -179,21 +181,21 @@ public function editTask(string $taskId, Request $request):JsonResponse{
  
     try{
         //Use the case for editing the title 
-           $this->editTaskHandler->handle($taskId,$data['title']);
-            return new JsonResponse([
-                'message'=>'Task has been updated'],200
-            );
+           $updatedTask = $this->editTaskHandler->handle($taskId,$data['title']);
+       
+          return $this->json([
+    'id' => $updatedTask->getId(),
+                    'title' => $updatedTask->getTitle(),
+                    'dateCreated' => $updatedTask->getDateCreated(),
+                    'isCompleted' => $updatedTask->getIsCompleted(),
+]);
           
-        }catch(\RuntimeException $e){
-            //Error trying to delete the task. Cannot find task ...
-            return new JsonResponse([
-                'error'=> $e->getMessage()],404);
-        }
-        catch (\Exception $e) {
-            //System error, connection, server, etc....
-        return new JsonResponse([
-            'error' => 'An unexpected error occurred.'], 500);
-    }
+        }catch (\Throwable $e) {
+    return new JsonResponse([
+        'error' => $e->getMessage(),
+        'trace' => $e->getTraceAsString()
+    ], 500);
+}
 
 
 

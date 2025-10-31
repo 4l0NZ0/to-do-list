@@ -21,7 +21,7 @@ interface TaskRepositoryInterface{
    public function toggleTask(string $taskId):void;
 
    //Edit the title of a task by its unique Id. 
-   public function editTask(string $taskId, string $title):void;
+   public function editTask(string $taskId, string $title):Task;
 
    //Load Tasks from DB 
    public function loadTasks():array;

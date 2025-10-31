@@ -6,6 +6,8 @@ namespace App\Application\UseCase;
 //No business logic here. Just delegates the operation to the repo which handles the DB operations.  
 
 use App\Domain\Repository\TaskRepositoryInterface;
+use App\Domain\Entity\Task;
+
 
 class EditTaskHandler{
 
@@ -21,9 +23,10 @@ class EditTaskHandler{
 
    //Handles the editing of an existing tasks title. 
   //Calls the repository to edit the task. 
-  public function handle(string $taskId , string $title):void{
+  public function handle(string $taskId , string $title):Task{
 
-    $this->taskRepositoryInterface->editTask($taskId,$title);
+    return $this->taskRepositoryInterface->editTask($taskId,$title);
+    
 
   }
 

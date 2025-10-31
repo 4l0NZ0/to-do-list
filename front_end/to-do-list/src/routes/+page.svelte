@@ -150,7 +150,7 @@ async function handleEditTask(newTitle){
 
     
     // @ts-ignore
-    //console.log(upDatedTitle);
+    console.log(upDatedTitle);
     
     showModal = false; 
         

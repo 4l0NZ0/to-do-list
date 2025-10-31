@@ -99,7 +99,7 @@ class TaskRepository implements TaskRepositoryInterface{
     }
 
    // Edit the task title for an existing task 
-    public function editTask(string $taskId, string $title):void{
+    public function editTask(string $taskId, string $title):Task{
 
         // We need to find the task by id. If the Task is found set it to $task
          $task = $this->entityManager->getRepository(Task::class)->find($taskId);
@@ -117,6 +117,7 @@ class TaskRepository implements TaskRepositoryInterface{
        
         // save changes 
         $this->save($task);
+        return $task;
      
 
 
