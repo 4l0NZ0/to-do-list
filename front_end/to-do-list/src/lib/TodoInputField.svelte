@@ -6,7 +6,7 @@
     //Get the props from parent 
 
     let {task = $bindable(""),onAdd = () =>{}} = $props();
-    
+    //`$bindable` prop allows the child component to update the binded value in the parent scope.
     
     let placeholder ="Add Task .....";
 
